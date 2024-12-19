@@ -4,16 +4,18 @@
 #include <sstream>
 #include <string>
 
-// A simple struct for a 3D point
+// Updated struct for 3D point with RGB
 struct Point3D {
     float x, y, z;
+    int r, g, b; // RGB color
 };
 
-// Serialize a vector of Point3D to a string (CSV format)
+// Serialize a vector of Point3D with RGB to a string
 std::string serializePointCloud(const std::vector<Point3D>& points) {
     std::ostringstream oss;
     for (const auto& point : points) {
-        oss << point.x << "," << point.y << "," << point.z << "\n";
+        oss << point.x << "," << point.y << "," << point.z << ","
+            << point.r << "," << point.g << "," << point.b << "\n";
     }
     return oss.str();
 }
@@ -25,11 +27,11 @@ int main() {
 
     std::cout << "Connected to server at tcp://127.0.0.1:5555\n";
 
-    // Create a sample point cloud
+    // Create a sample point cloud with RGB values
     std::vector<Point3D> pointCloud = {
-        {1.0f, 2.0f, 3.0f},
-        {4.0f, 5.0f, 6.0f},
-        {7.0f, 8.0f, 9.0f}
+        {1.0f, 2.0f, 3.0f, 255, 0, 0},  // Red point
+        {4.0f, 5.0f, 6.0f, 0, 255, 0},  // Green point
+        {7.0f, 8.0f, 9.0f, 0, 0, 255}   // Blue point
     };
 
     // Serialize the point cloud
