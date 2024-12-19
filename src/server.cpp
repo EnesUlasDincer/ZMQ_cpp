@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-// Updated struct for 3D point with RGB
+// Struct for a 3D point with RGB
 struct Point3D {
     float x, y, z;
     int r, g, b; // RGB color
@@ -59,15 +59,17 @@ int main() {
         // Deserialize the point cloud
         std::vector<Point3D> pointCloud = deserializePointCloud(receivedData);
 
-        // Print the deserialized points
-        std::cout << "Deserialized point cloud with RGB:\n";
-        for (const auto& point : pointCloud) {
-            std::cout << "Point: (" << point.x << ", " << point.y << ", " << point.z
-                      << ") Color: (" << point.r << ", " << point.g << ", " << point.b << ")\n";
+        // Process the deserialized points (example: print the first point)
+        if (!pointCloud.empty()) {
+            const auto& firstPoint = pointCloud[0];
+            std::cout << "First Point: (" << firstPoint.x << ", " << firstPoint.y
+                      << ", " << firstPoint.z << ") Color: ("
+                      << firstPoint.r << ", " << firstPoint.g << ", "
+                      << firstPoint.b << ")\n";
         }
 
         // Send acknowledgment to the client
-        std::string replyMsg = "Point cloud with RGB received. Total points: " + std::to_string(pointCloud.size());
+        std::string replyMsg = "Frame received. Total points: " + std::to_string(pointCloud.size());
         zmq::message_t reply(replyMsg.size());
         memcpy(reply.data(), replyMsg.c_str(), replyMsg.size());
         socket.send(reply, zmq::send_flags::none);
